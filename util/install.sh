@@ -28,7 +28,7 @@ esac
 DIST=Unknown
 RELEASE=Unknown
 CODENAME=Unknown
-ARCH=`uname -m`
+ARCH=$(uname -m)
 if [ "$ARCH" = "x86_64" ]; then ARCH="amd64"; fi
 if [ "$ARCH" = "i686" ]; then ARCH="i386"; fi
 
@@ -49,7 +49,7 @@ test -e /etc/fedora-release && DIST="Fedora"
 test -e /etc/redhat-release && DIST="RedHatEnterpriseServer"
 test -e /etc/centos-release && DIST="CentOS"
 
-if [ "$DIST" = "Fedora" -o "$DIST" = "RedHatEnterpriseServer" -o "$DIST" = "CentOS" ]; then
+if [ "$DIST" = "Fedora" ] || [ "$DIST" = "RedHatEnterpriseServer" ] || [ "$DIST" = "CentOS" ]; then
     install='sudo yum -y install'
     remove='sudo yum -y erase'
     pkginst='sudo rpm -ivh'
@@ -80,14 +80,14 @@ if ! echo $DIST | egrep 'Ubuntu|Debian|Fedora|RedHatEnterpriseServer|CentOS'; th
 fi
 
 # More distribution info
-DIST_LC=`echo $DIST | tr [A-Z] [a-z]` # as lower case
+DIST_LC=$(echo $DIST | tr [A-Z] [a-z]) # as lower case
 
 
 # Determine whether version $1 >= version $2
 # usage: if version_ge 1.20 1.2.3; then echo "true!"; fi
 function version_ge {
     # sort -V sorts by *version number*
-    latest=`printf "$1\n$2" | sort -V | tail -1`
+    latest=$(printf "$1\n$2" | sort -V | tail -1)
     # If $1 is latest version, then $1 >= $2
     [ "$1" == "$latest" ]
 }
@@ -178,7 +178,7 @@ function p4_deps {
 # Install Mininet-WiFi deps
 function wifi_deps {
     echo "Installing Mininet dependencies"
-    if [ "$DIST" = "Fedora" -o "$DIST" = "RedHatEnterpriseServer" -o "$DIST" = "CentOS" ]; then
+    if [ "$DIST" = "Fedora" ] || [ "$DIST" = "RedHatEnterpriseServer" ] || [ "$DIST" = "CentOS" ]; then
         $install gcc make socat psmisc xterm openssh-clients iperf libnl3-devel \
             iproute telnet python-setuptools libcgroup-tools openssl-devel \
             ethtool help2man pyflakes pylint python-pep8 python-pexpect libevent-devel \
@@ -557,7 +557,7 @@ function of {
     echo "Installing OpenFlow reference implementation..."
     cd $BUILD_DIR
     $install autoconf automake libtool make gcc patch
-    if [ "$DIST" = "Fedora" -o "$DIST" = "RedHatEnterpriseServer" -o "$DIST" = "CentOS" ]; then
+    if [ "$DIST" = "Fedora" ] || [ "$DIST" = "RedHatEnterpriseServer" ] || [ "$DIST" = "CentOS" ]; then
         $install git pkgconfig glibc-devel
     else
         $install git-core autotools-dev pkg-config libc6-dev
@@ -633,7 +633,7 @@ function of13 {
 function ovs {
     echo "Installing Open vSwitch..."
 
-    if [ "$DIST" = "Fedora" -o "$DIST" = "RedHatEnterpriseServer" -o "$DIST" = "CentOS" ]; then
+    if [ "$DIST" = "Fedora" ] || [ "$DIST" = "RedHatEnterpriseServer" ] || [ "$DIST" = "CentOS" ]; then
         $install openvswitch
         if ! $install openvswitch-controller; then
             echo "openvswitch-controller not installed"
