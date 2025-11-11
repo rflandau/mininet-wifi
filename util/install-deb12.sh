@@ -56,8 +56,8 @@ function wifi_deps {
     echo "Installing dependencies from pip..."
     # install the remaining python packages via pip.
     # NOTE(rlandau): this is against the standard Debian workflow, but should be okay for a packaged image.
-    python3 -m pip install --upgrade pip
-    python3 -m pip install "numpy<2" FlightRadarAPI pillow bitstring skyfield requests --break-system-packages
+    python3 -m pip install --break-system-packages --upgrade pip
+    python3 -m pip install --break-system-packages "numpy<2" FlightRadarAPI pillow bitstring skyfield requests --break-system-packages
 
     # NOTE(rlandau): the rest is pulled directly from the original wifi_deps function in the install.sh.
     # It remains mostly intact (save for a now-unnecessary Ubuntu 14 check)
